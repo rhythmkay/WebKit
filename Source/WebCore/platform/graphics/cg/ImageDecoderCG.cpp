@@ -148,7 +148,8 @@ static RetainPtr<CFDictionaryRef> imageSourceOptions(SubsamplingLevel subsamplin
     static const auto options = createImageSourceOptions().leakRef();
     if (subsamplingLevel == SubsamplingLevel::Default && shouldDecodeToHDR == ShouldDecodeToHDR::No)
         return options;
-
+    if (subsamplingLevel != SubsamplingLevel::Default)
+        appendImageSourceOption(WTFMove(options), subsamplingLevel);
     return appendImageSourceOption(adoptCF(CFDictionaryCreateMutableCopy(nullptr, 0, options)), shouldDecodeToHDR);
 }
 
